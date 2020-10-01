@@ -1,14 +1,4 @@
-// Change le numéro de la question
-$('#question-id').text(1);
-
-// Change le texte de la question
-$('#current-question-text').text(questionData[0].text);
-
-// Change le texte de chaque réponse
-$('#answer1-caption').text(questionData[0].answer1);
-$('#answer2-caption').text(questionData[0].answer2);
-$('#answer3-caption').text(questionData[0].answer3);
-$('#answer4-caption').text(questionData[0].answer4);
+loadQuestion(0);
 
 /*
 // Initialise le compteur à 1
@@ -24,6 +14,20 @@ for (let element of $('#question-form label')) {
 }
 */
 
+function loadQuestion(questionId) {
+  // Change le numéro de la question
+  $('#question-id').text(questionId + 1);
+
+  // Change le texte de la question
+  $('#current-question-text').text(questionData[questionId].text);
+
+  // Change le texte de chaque réponse
+  $('#answer1-caption').text(questionData[questionId].answer1);
+  $('#answer2-caption').text(questionData[questionId].answer2);
+  $('#answer3-caption').text(questionData[questionId].answer3);
+  $('#answer4-caption').text(questionData[questionId].answer4);
+}
+
 // Initialise l'index de la question actuelle à zéro
 let currentQuestionId = 0;
 // Associe une action au fait de valider le formulaire
@@ -33,13 +37,5 @@ $('#question-form').submit( function(event) {
   // Augmente l'index de la question actuelle de 1
   currentQuestionId += 1;
   // Charge la question actuelle dans le DOM
-  // Change le numéro de la question
-  $('#question-id').text(currentQuestionId + 1);
-  // Change le texte de la question
-  $('#current-question-text').text(questionData[currentQuestionId].text);
-  // Change le texte de chaque réponse
-  $('#answer1-caption').text(questionData[currentQuestionId].answer1);
-  $('#answer2-caption').text(questionData[currentQuestionId].answer2);
-  $('#answer3-caption').text(questionData[currentQuestionId].answer3);
-  $('#answer4-caption').text(questionData[currentQuestionId].answer4);
+  loadQuestion(currentQuestionId);
 });
