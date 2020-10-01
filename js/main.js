@@ -11,6 +11,10 @@ function loadQuestion(questionId) {
   $('#answer3-caption').text(questionData[questionId].answer3);
   $('#answer4-caption').text(questionData[questionId].answer4);
 
+  for (let element of $('#answers > *')) {
+    element.style.order = Math.floor(Math.random() * 10);
+  }
+
   /*
   // Initialise le compteur à 1
   let count = 1;
