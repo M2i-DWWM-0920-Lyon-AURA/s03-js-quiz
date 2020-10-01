@@ -38,9 +38,15 @@ $('#question-form').submit( function(event) {
   const userAnswer = formData[0].value;
   // Compare le numéro de la réponse donnée par l'utilisateur avec le numéro de la bonne réponse
   if (Number(userAnswer) === questionData[currentQuestionId].rightAnswer) {
-    alert('Bonne réponse!');
+    // Crée un noeud affichant une alerte
+    const alertNode = $('<div class="alert alert-success alert-dismissible fade show" role="alert">Bravo! C\'était la bonne réponse! 😎<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>')
+    // Insérer ce noeud dans le DOM
+    $('#answer-result').append(alertNode);
   } else {
-    alert('Mauvaise réponse!');
+    // Crée un noeud affichant une alerte
+    const alertNode = $('<div class="alert alert-danger alert-dismissible fade show" role="alert">Oh non! Ce n\'était pas la bonne réponse! 😢<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>')
+    // Insérer ce noeud dans le DOM
+    $('#answer-result').append(alertNode);
   }
   // Augmente l'index de la question actuelle de 1
   currentQuestionId += 1;
