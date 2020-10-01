@@ -26,16 +26,16 @@ function loadQuestion(questionId) {
   */
 }
 
-function displayAlert(alertClass, alertMessage) {
+function displayAlert(color, alertMessage) {
   // Crée un noeud affichant une alerte
-  const alertNode = $('<div class="alert ' + alertClass + ' alert-dismissible fade show" role="alert">' + alertMessage + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+  const alertNode = $('<div class="alert alert-' + color + ' alert-dismissible fade show" role="alert">' + alertMessage + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
   // Insère l'alerte dans le DOM
   $('#answer-result').append(alertNode);
 }
 
-function addAnswerItem(iconClass, listItemClass, questionText) {
+function addAnswerItem(iconClass, color, questionText) {
   // Crée un noeud affichant un élément de liste avec l'énoncé de la question
-  const answerItem = $('<li class="list-group-item list-group-item-action ' + listItemClass + '"><i class="fas ' + iconClass + '"></i> <span class="question-text">' + questionText + '</span></li>');
+  const answerItem = $('<li class="list-group-item list-group-item-action list-group-item-' + color + '"><i class="fas ' + iconClass + '"></i> <span class="question-text">' + questionText + '</span></li>');
   // Insère le noeud dans le DOM
   $('#answers-list').append(answerItem);
 }
@@ -56,28 +56,30 @@ $('#question-form').submit( function(event) {
   const userAnswer = formData[0].value;
   // Pré-définit les variables permettant de construire l'alerte en fonction de la réponse donné
   // afin de pouvoir les redéfinir dans la bloc "if" avant de les utiliser en-dehors de ce bloc
-  let alertClass;
+  let color;
   let alertMessage;
+  let iconClass;
   // Compare le numéro de la réponse donnée par l'utilisateur avec le numéro de la bonne réponse
   if (Number(userAnswer) === questionData[currentQuestionId].rightAnswer) {
     // L'alerte devra s'afficher en vert
-    alertClass = 'alert-success';
+    color = 'success';
     // Définit le message que l'alerte devra contenir
     alertMessage = 'Bravo! C\'était la bonne réponse! 😎';
-    // Ajoute un nouvel élément contenant le texte de la question dans
-    // la liste des réponses
-    addAnswerItem('fa-thumbs-up', 'list-group-item-success', questionData[currentQuestionId].text);
+    // Définit l'icône que l'élément dans la liste de réponses devra afficher
+    iconClass = 'fa-thumbs-up';
   } else {
     // L'alerte devra s'afficher en rouge
-    alertClass = 'alert-danger';
+    color = 'danger';
     // Définit le message que l'alerte devra contenir
     alertMessage = 'Oh non! Ce n\'était pas la bonne réponse! 😢';
-    // Ajoute un nouvel élément contenant le texte de la question dans
-    // la liste des réponses
-    addAnswerItem('fa-thumbs-down', 'list-group-item-danger', questionData[currentQuestionId].text);
+    // Définit l'icône que l'élément dans la liste de réponses devra afficher
+    iconClass = 'fa-thumbs-down';
   }
+  // Ajoute un nouvel élément contenant le texte de la question dans
+  // la liste des réponses
+  addAnswerItem(iconClass, color, questionData[currentQuestionId].text);
   // Invoque une alerte en lui passant la classe et le message désirés
-  displayAlert(alertClass, alertMessage);
+  displayAlert(color, alertMessage);
 
   // ========================================================
   // Chargement de la question suivante
