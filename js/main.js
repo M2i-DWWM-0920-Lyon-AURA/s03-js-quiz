@@ -36,8 +36,14 @@ $('#question-form').submit( function(event) {
   currentQuestionId += 1;
   // Si l'index de la question actuelle dépasse le nombre de question présentes dans les données
   if (currentQuestionId >= questionData.length) {
-    // Réinitialise l'index de la question à zéro
-    currentQuestionId = 0;
+    // Si l'utilisateur souhaite recommencer le quiz
+    if (confirm('Recommencer le quiz?')) {
+      // Réinitialise l'index de la question à zéro
+      currentQuestionId = 0;
+    } else {
+      // Arrêter la fonction (pour éviter de charger la question suivante)
+      return;
+    }
   }
   // Charge la question actuelle dans le DOM
   loadQuestion(currentQuestionId);
