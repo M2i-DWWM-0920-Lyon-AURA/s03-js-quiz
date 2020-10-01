@@ -1,19 +1,3 @@
-loadQuestion(0);
-
-/*
-// Initialise le compteur à 1
-let count = 1;
-// Pour chaque élément du DOM contenant une réponse
-for (let element of $('#question-form label')) {
-  // Récupère la réponse dont le numéro correspond à la valeur actuelle du compteur
-  const answer = questionData[0]['answer' + count]
-  // Changer le texte de l'élément pour la réponse récupérée
-  element.innerText = answer;
-  // Incrémente le compteur
-  count += 1;
-}
-*/
-
 function loadQuestion(questionId) {
   // Change le numéro de la question
   $('#question-id').text(questionId + 1);
@@ -26,6 +10,20 @@ function loadQuestion(questionId) {
   $('#answer2-caption').text(questionData[questionId].answer2);
   $('#answer3-caption').text(questionData[questionId].answer3);
   $('#answer4-caption').text(questionData[questionId].answer4);
+
+  /*
+  // Initialise le compteur à 1
+  let count = 1;
+  // Pour chaque élément du DOM contenant une réponse
+  for (let element of $('#question-form label')) {
+    // Récupère la réponse dont le numéro correspond à la valeur actuelle du compteur
+    const answer = questionData[0]['answer' + count]
+    // Changer le texte de l'élément pour la réponse récupérée
+    element.innerText = answer;
+    // Incrémente le compteur
+    count += 1;
+  }
+  */
 }
 
 // Initialise l'index de la question actuelle à zéro
@@ -36,6 +34,13 @@ $('#question-form').submit( function(event) {
   event.preventDefault();
   // Augmente l'index de la question actuelle de 1
   currentQuestionId += 1;
+  // Si l'index de la question actuelle dépasse le nombre de question présentes dans les données
+  if (currentQuestionId >= questionData.length) {
+    // Réinitialise l'index de la question à zéro
+    currentQuestionId = 0;
+  }
   // Charge la question actuelle dans le DOM
   loadQuestion(currentQuestionId);
 });
+
+loadQuestion(0);
