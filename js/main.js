@@ -26,6 +26,13 @@ function loadQuestion(questionId) {
   */
 }
 
+function displayAlert(alertClass, alertMessage) {
+  // Crée un noeud affichant une alerte
+  const alertNode = $('<div class="alert ' + alertClass + ' alert-dismissible fade show" role="alert">' + alertMessage + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+  // Insérer l'alerte dans le DOM
+  $('#answer-result').append(alertNode);
+}
+
 // Initialise l'index de la question actuelle à zéro
 let currentQuestionId = 0;
 // Associe une action au fait de valider le formulaire
@@ -36,18 +43,24 @@ $('#question-form').submit( function(event) {
   const formData = $('#question-form').serializeArray()
   // Dans les données du formulaire, récupère le numéro de la réponse donnée par l'utilisateur
   const userAnswer = formData[0].value;
+  // Pré-définit les variables permettant de construire l'alerte en fonction de la réponse donné
+  // afin de pouvoir les redéfinir dans la bloc "if" avant de les utiliser en-dehors de ce bloc
+  let alertClass;
+  let alertMessage;
   // Compare le numéro de la réponse donnée par l'utilisateur avec le numéro de la bonne réponse
   if (Number(userAnswer) === questionData[currentQuestionId].rightAnswer) {
-    // Crée un noeud affichant une alerte
-    const alertNode = $('<div class="alert alert-success alert-dismissible fade show" role="alert">Bravo! C\'était la bonne réponse! 😎<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>')
-    // Insérer ce noeud dans le DOM
-    $('#answer-result').append(alertNode);
+    // L'alerte devra s'afficher en vert
+    alertClass = 'alert-success';
+    // Définit le message que l'alerte devra contenir
+    alertMessage = 'Bravo! C\'était la bonne réponse! 😎';
   } else {
-    // Crée un noeud affichant une alerte
-    const alertNode = $('<div class="alert alert-danger alert-dismissible fade show" role="alert">Oh non! Ce n\'était pas la bonne réponse! 😢<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>')
-    // Insérer ce noeud dans le DOM
-    $('#answer-result').append(alertNode);
+    // L'alerte devra s'afficher en rouge
+    alertClass = 'alert-danger';
+    // Définit le message que l'alerte devra contenir
+    alertMessage = 'Oh non! Ce n\'était pas la bonne réponse! 😢';
   }
+  // Invoque une alerte en lui passant la classe et le message désirés
+  displayAlert(alertClass, alertMessage);
   // Augmente l'index de la question actuelle de 1
   currentQuestionId += 1;
   // Si l'index de la question actuelle dépasse le nombre de question présentes dans les données
