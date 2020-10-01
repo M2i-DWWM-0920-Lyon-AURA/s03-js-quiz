@@ -32,6 +32,16 @@ let currentQuestionId = 0;
 $('#question-form').submit( function(event) {
   // Empêche le rechargement de la page
   event.preventDefault();
+  // Récupère les données du formulaire
+  const formData = $('#question-form').serializeArray()
+  // Dans les données du formulaire, récupère le numéro de la réponse donnée par l'utilisateur
+  const userAnswer = formData[0].value;
+  // Compare le numéro de la réponse donnée par l'utilisateur avec le numéro de la bonne réponse
+  if (Number(userAnswer) === questionData[currentQuestionId].rightAnswer) {
+    alert('Bonne réponse!');
+  } else {
+    alert('Mauvaise réponse!');
+  }
   // Augmente l'index de la question actuelle de 1
   currentQuestionId += 1;
   // Si l'index de la question actuelle dépasse le nombre de question présentes dans les données
