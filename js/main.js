@@ -29,8 +29,15 @@ function loadQuestion(questionId) {
 function displayAlert(alertClass, alertMessage) {
   // Crée un noeud affichant une alerte
   const alertNode = $('<div class="alert ' + alertClass + ' alert-dismissible fade show" role="alert">' + alertMessage + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-  // Insérer l'alerte dans le DOM
+  // Insère l'alerte dans le DOM
   $('#answer-result').append(alertNode);
+}
+
+function addAnswerItem(iconClass, listItemClass, questionText) {
+  // Crée un noeud affichant un élément de liste avec l'énoncé de la question
+  const answerItem = $('<li class="list-group-item list-group-item-action ' + listItemClass + '"><i class="fas ' + iconClass + '"></i> <span class="question-text">' + questionText + '</span></li>');
+  // Insère le noeud dans le DOM
+  $('#answers-list').append(answerItem);
 }
 
 // Initialise l'index de la question actuelle à zéro
@@ -39,6 +46,10 @@ let currentQuestionId = 0;
 $('#question-form').submit( function(event) {
   // Empêche le rechargement de la page
   event.preventDefault();
+
+  // ========================================================
+  // Traitement de la réponse de l'utilisateur
+  // ========================================================
   // Récupère les données du formulaire
   const formData = $('#question-form').serializeArray()
   // Dans les données du formulaire, récupère le numéro de la réponse donnée par l'utilisateur
@@ -53,14 +64,24 @@ $('#question-form').submit( function(event) {
     alertClass = 'alert-success';
     // Définit le message que l'alerte devra contenir
     alertMessage = 'Bravo! C\'était la bonne réponse! 😎';
+    // Ajoute un nouvel élément contenant le texte de la question dans
+    // la liste des réponses
+    addAnswerItem('fa-thumbs-up', 'list-group-item-success', questionData[currentQuestionId].text);
   } else {
     // L'alerte devra s'afficher en rouge
     alertClass = 'alert-danger';
     // Définit le message que l'alerte devra contenir
     alertMessage = 'Oh non! Ce n\'était pas la bonne réponse! 😢';
+    // Ajoute un nouvel élément contenant le texte de la question dans
+    // la liste des réponses
+    addAnswerItem('fa-thumbs-down', 'list-group-item-danger', questionData[currentQuestionId].text);
   }
   // Invoque une alerte en lui passant la classe et le message désirés
   displayAlert(alertClass, alertMessage);
+
+  // ========================================================
+  // Chargement de la question suivante
+  // ========================================================
   // Augmente l'index de la question actuelle de 1
   currentQuestionId += 1;
   // Si l'index de la question actuelle dépasse le nombre de question présentes dans les données
